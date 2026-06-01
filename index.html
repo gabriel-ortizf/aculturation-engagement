@@ -882,47 +882,44 @@
           <th>Predictors</th>
           <th>R²</th>
           <th>ΔR²</th>
-          <th>F change</th>
-          <th>p</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>1a</td>
           <td style="font-size:0.82rem;color:var(--text-dim)">Stress only</td>
-          <td>.030</td>
+          <td>.030<span class="sig">*</span></td>
           <td style="color:var(--text-muted)">—</td>
-          <td style="color:var(--text-muted)">—</td>
-          <td>.022</td>
         </tr>
         <tr>
           <td>1b</td>
           <td style="font-size:0.82rem;color:var(--text-dim)">Same field only</td>
-          <td><span style="color:var(--amber)">.104</span></td>
+          <td>.104<span class="sig">***</span></td>
           <td style="color:var(--text-muted)">—</td>
-          <td style="color:var(--text-muted)">—</td>
-          <td><span style="color:var(--amber)">&lt; .001</span></td>
         </tr>
         <tr>
           <td>2</td>
           <td style="font-size:0.82rem;color:var(--text-dim)">Stress + Same field</td>
-          <td>.116</td>
-          <td><span style="color:var(--teal)">.012</span></td>
-          <td style="color:var(--text-muted)">—</td>
-          <td style="color:var(--text-muted)">—</td>
+          <td>.116<span class="sig">***</span></td>
+          <td><span style="color:var(--teal)">+.012</span></td>
         </tr>
         <tr>
           <td>3</td>
           <td style="font-size:0.82rem;color:var(--text-dim)">+ Stress × Field</td>
-          <td>.116</td>
+          <td>.116<span class="sig">***</span></td>
           <td><span style="color:var(--text-muted)">.000</span></td>
-          <td>0.047</td>
-          <td><span style="color:var(--text-muted)">.829</span></td>
         </tr>
       </tbody>
     </table>
     <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1rem;">
-      Same field alone explains 10% of variance — nearly as much as both predictors combined. Once you know someone's occupational field, knowing their stress level adds little. The interaction (Model 3) adds nothing.
+      * p &lt; .05 &nbsp;·&nbsp; ** p &lt; .01 &nbsp;·&nbsp; *** p &lt; .001 &nbsp;·&nbsp; R² significance refers to the overall model fit.<br>
+      Same field alone explains 10% of variance — nearly as much as both predictors combined. The interaction (Model 3) adds nothing.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      The field alone explains nearly as much as both predictors combined. But does that mean stress becomes irrelevant for people who kept their field? The scatter below shows each participant — stress on the x-axis, engagement on the y-axis, colored by group.
     </p>
   </div>
 
@@ -939,6 +936,12 @@
         Different field
       </div>
     </div>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      The regression lines run nearly parallel. Stress affects both groups similarly — the field shifts the level, not the slope. But could this still be confounded by age, education, or time of residence? A multiple regression controlling for all variables at once gives the definitive answer.
+    </p>
   </div>
 
   <div class="chart-wrap reveal">
@@ -1039,7 +1042,8 @@
     Acculturation Stress Scale for Latin American Immigrants (Ruiz et al., 2011) — 24 items, 6 factors, α = .92;
     Utrecht Work Engagement Scale–Short Version (UWES-9; Schaufeli, Bakker &amp; Salanova, 2006) — vigor (α = .82), dedication (α = .86), absorption (α = .80).
     Psychometric properties of the UWES-9 validated in Latin American samples: Mexico (Hernández et al., 2016), Ecuador (Portalanza et al., 2017), Puerto Rico (Rodríguez et al., 2014).<br><br>
-    Lu et al. (2011) <em>Int. Journal of HRM</em>; Turska &amp; Mochnacka (2016) <em>Polish Psychological Bulletin</em>.
+    Lu et al. (2011) <em>Int. Journal of HRM</em>; Turska &amp; Mochnacka (2016) <em>Polish Psychological Bulletin</em>.<br><br>
+    <strong>Dataset:</strong> <a href="https://doi.org/10.17605/OSF.IO/S5KBE" target="_blank" style="color:var(--amber-dim)">doi.org/10.17605/OSF.IO/S5KBE</a>
   </div>
 </footer>
 
