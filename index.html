@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What Keeps a Migrant Engaged at Work?</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0d0b;
+    --surface: #1a1814;
+    --surface2: #222018;
+    --amber: #e8a020;
+    --amber-dim: #a06a10;
+    --amber-glow: rgba(232,160,32,0.10);
+    --teal: #3db8a0;
+    --rose: #e05060;
+    --text: #e8e2d8;
+    --text-dim: #8a8070;
+    --text-muted: #5a5448;
+    --border: rgba(232,160,32,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.4;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8vh 10vw;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%; right: -10%;
+    width: 60vw; height: 60vw;
+    background: radial-gradient(ellipse, rgba(232,160,32,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.6rem, 5.5vw, 5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+
+  .hero h1 em { font-style: italic; color: var(--amber); }
+
+  .hero-sub {
+    max-width: 580px;
+    font-size: 1.05rem;
+    color: var(--text-dim);
+    line-height: 1.85;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-meta {
+    margin-top: 4rem;
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  .meta-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--amber);
+  }
+
+  .meta-label {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 3rem; left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 1s 1.2s forwards;
+  }
+
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, var(--amber), transparent);
+    animation: scrollPulse 2s ease-in-out infinite;
+  }
+
+  /* ── LAYOUT ── */
+  section {
+    padding: 10vh 10vw;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-number {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+    margin-bottom: 1rem;
+  }
+
+  .question {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+
+  .question em { font-style: italic; color: var(--amber); }
+
+  .answer-text {
+    font-size: 1rem;
+    color: var(--text-dim);
+    max-width: 640px;
+    margin-bottom: 2.5rem;
+    line-height: 1.85;
+  }
+
+  .answer-text strong { color: var(--text); font-weight: 500; }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--amber-dim), transparent);
+    opacity: 0.3;
+  }
+
+  /* ── CHART WRAP ── */
+  .chart-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .chart-title {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+  }
+
+  /* ── COUNTRY BARS ── */
+  .country-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .c-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 48px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .c-label { font-size: 0.85rem; color: var(--text-dim); text-align: right; }
+
+  .c-track {
+    background: var(--surface2);
+    border-radius: 2px;
+    height: 8px;
+    overflow: hidden;
+  }
+
+  .c-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .c-val { font-size: 0.82rem; color: var(--text-muted); }
+
+  /* ── BAR CHARTS ── */
+  .bar-group { display: flex; flex-direction: column; gap: 1rem; }
+
+  .bar-row {
+    display: grid;
+    grid-template-columns: 150px 1fr 60px;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .bar-label { font-size: 0.85rem; color: var(--text-dim); text-align: right; }
+
+  .bar-track {
+    background: var(--surface2);
+    border-radius: 2px;
+    height: 10px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .bar-fill.amber { background: var(--amber); }
+  .bar-fill.teal  { background: var(--teal); }
+  .bar-fill.dim   { background: var(--text-muted); }
+
+  .bar-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9rem;
+    color: var(--amber);
+  }
+
+  /* ── INSIGHT CARDS ── */
+  .insight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+  }
+
+  .insight-card.amber::before { background: var(--amber); }
+  .insight-card.teal::before  { background: var(--teal); }
+  .insight-card.rose::before  { background: var(--rose); }
+
+  .insight-stat {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .insight-card.amber .insight-stat { color: var(--amber); }
+  .insight-card.teal  .insight-stat { color: var(--teal); }
+  .insight-card.rose  .insight-stat { color: var(--rose); }
+
+  .insight-desc { font-size: 0.85rem; color: var(--text-dim); line-height: 1.6; }
+
+  /* ── CORRELATION TABLE ── */
+  .corr-table { width: 100%; border-collapse: collapse; }
+
+  .corr-table th {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .corr-table td {
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    color: var(--text-dim);
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .corr-table tr:last-child td { border-bottom: none; }
+
+  .r-val { font-family: 'Playfair Display', serif; font-weight: 700; }
+  .r-pos { color: var(--teal); }
+  .r-neu { color: var(--text-muted); }
+  .sig   { color: var(--amber); font-size: 0.8rem; margin-left: 2px; }
+  .ns    { color: var(--text-muted); font-size: 0.75rem; font-style: italic; }
+
+  /* ── COMPARE CARDS ── */
+  .compare-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .compare-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 2rem;
+    text-align: center;
+  }
+
+  .compare-card.hi {
+    border-color: var(--amber);
+    background: var(--amber-glow);
+  }
+
+  .compare-big {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .compare-card .compare-big { color: var(--text-muted); }
+  .compare-card.hi .compare-big { color: var(--amber); }
+
+  .compare-sub { font-size: 0.82rem; color: var(--text-muted); line-height: 1.5; }
+
+  .compare-tag {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.3rem 0.75rem;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .compare-card .compare-tag { background: var(--surface2); color: var(--text-muted); }
+  .compare-card.hi .compare-tag { background: var(--amber); color: #000; }
+
+  /* ── REGRESSION ── */
+  .reg-row {
+    display: grid;
+    grid-template-columns: 220px 1fr 90px;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .reg-row:last-child { border-bottom: none; }
+
+  .reg-name { font-size: 0.85rem; color: var(--text-dim); }
+  .reg-name.hi { color: var(--text); font-weight: 500; }
+
+  .beta-track {
+    background: var(--surface2);
+    border-radius: 2px;
+    height: 6px;
+    position: relative;
+  }
+
+  .beta-center {
+    position: absolute;
+    top: 0; left: 50%;
+    width: 1px; height: 100%;
+    background: var(--text-muted);
+    opacity: 0.4;
+  }
+
+  .beta-fill {
+    position: absolute;
+    top: 0; height: 100%;
+    border-radius: 2px;
+    transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .beta-fill.pos { background: var(--teal); left: 50%; width: 0; }
+  .beta-fill.neg { background: var(--rose); right: 50%; width: 0; }
+  .beta-fill.key { background: var(--amber); }
+
+  .reg-p { font-size: 0.75rem; text-align: right; }
+  .reg-p.sig-p { color: var(--amber); font-weight: 500; }
+  .reg-p.ns-p  { color: var(--text-muted); }
+
+  /* ── FINDING BOX ── */
+  .finding {
+    background: var(--amber-glow);
+    border: 1px solid var(--amber);
+    border-radius: 4px;
+    padding: 2rem 2.5rem;
+    margin: 2.5rem 0;
+    position: relative;
+  }
+
+  .finding::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 6rem;
+    color: var(--amber);
+    opacity: 0.12;
+    position: absolute;
+    top: -1rem; left: 1rem;
+    line-height: 1;
+  }
+
+  .finding p {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    font-style: italic;
+    line-height: 1.65;
+    color: var(--text);
+    position: relative;
+  }
+
+  .finding-note {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--amber-dim);
+  }
+
+  /* ── METHOD NOTE ── */
+  .method-note {
+    background: var(--surface2);
+    border-left: 2px solid var(--text-muted);
+    padding: 1rem 1.5rem;
+    margin: 1.5rem 0;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .method-note strong { color: var(--text-dim); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 6vh 10vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 2rem;
+  }
+
+  .footer-brand {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--amber);
+  }
+
+  .footer-note {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    max-width: 420px;
+    line-height: 1.6;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50%       { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── TOOLTIP ── */
+  #tooltip {
+    position: fixed;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    pointer-events: none;
+    display: none;
+    z-index: 9999;
+  }
+
+  @media (max-width: 640px) {
+    .bar-row  { grid-template-columns: 110px 1fr 48px; }
+    .reg-row  { grid-template-columns: 140px 1fr 70px; }
+    .compare-row { grid-template-columns: 1fr; }
+    section   { padding: 8vh 6vw; }
+    .hero     { padding: 8vh 6vw; }
+  }
+</style>
+</head>
+<body>
+
+<div id="tooltip"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-label">Psychometrics · Organizational Psychology · Migration</div>
+  <h1>What keeps a migrant<br><em>engaged</em> at work?</h1>
+  <p class="hero-sub">
+    176 Venezuelan migrants. Five countries. One question: what actually keeps them engaged at work?
+  </p>
+  <p style="margin-top:1.25rem;font-size:0.78rem;color:var(--text-muted);letter-spacing:0.05em;">
+    Based on original Master's thesis research (Organizational Psychology, Universidad de Belgrano, Argentina, 2021) —
+    extended with previously unpublished analyses.
+  </p>
+  <div class="hero-meta">
+    <div class="meta-item">
+      <span class="meta-val">176</span>
+      <span class="meta-label">Participants</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">5</span>
+      <span class="meta-label">Countries</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">3</span>
+      <span class="meta-label">Constructs measured</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-val">1</span>
+      <span class="meta-label">Unexpected finding</span>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    Scroll to read
+  </div>
+</div>
+
+<!-- 01 CONTEXT -->
+<section>
+  <div class="reveal">
+    <div class="section-number">01 / Context</div>
+    <h2 class="question">Who are these people,<br>and where are they?</h2>
+    <p class="answer-text">
+      They left Venezuela looking for work. What they found varied: some landed in their field, some didn't. Some had contracts, most didn't.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      This is a study about what made a difference — not politically, but psychologically. <strong>What kept them engaged with their work?</strong>
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Sample distribution by host country</div>
+    <div class="country-grid">
+      <div class="c-row">
+        <span class="c-label">Chile</span>
+        <div class="c-track"><div class="c-fill" data-pct="36.9" style="background:var(--amber)"></div></div>
+        <span class="c-val">65 (37%)</span>
+      </div>
+      <div class="c-row">
+        <span class="c-label">Ecuador</span>
+        <div class="c-track"><div class="c-fill" data-pct="33.0" style="background:var(--amber-dim)"></div></div>
+        <span class="c-val">58 (33%)</span>
+      </div>
+      <div class="c-row">
+        <span class="c-label">Argentina</span>
+        <div class="c-track"><div class="c-fill" data-pct="12.5" style="background:var(--text-muted)"></div></div>
+        <span class="c-val">22 (13%)</span>
+      </div>
+      <div class="c-row">
+        <span class="c-label">Colombia</span>
+        <div class="c-track"><div class="c-fill" data-pct="11.9" style="background:var(--text-muted)"></div></div>
+        <span class="c-val">21 (12%)</span>
+      </div>
+      <div class="c-row">
+        <span class="c-label">Peru</span>
+        <div class="c-track"><div class="c-fill" data-pct="5.7" style="background:var(--text-muted)"></div></div>
+        <span class="c-val">10 (6%)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal insight-grid">
+    <div class="insight-card amber">
+      <div class="insight-stat">55%</div>
+      <div class="insight-desc">Women. Reflects the gender composition of early Venezuelan migration in the region.</div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-stat">42%</div>
+      <div class="insight-desc">Working without a formal contract — informality as a structural norm, not an exception.</div>
+    </div>
+    <div class="insight-card rose">
+      <div class="insight-stat">55%</div>
+      <div class="insight-desc">Working in a different field than in Venezuela. Most had to professionally reinvent themselves.</div>
+    </div>
+  </div>
+
+  <div class="method-note reveal">
+    <strong>Instruments:</strong> Acculturation Strategies Scale (Berry, 1997),
+    Acculturation Stress Scale for Latin American Immigrants (Ruiz et al., 2011), and the UWES-9 (Schaufeli, Bakker &amp; Salanova, 2006)
+    for Work Engagement (Vigor, Dedication, Absorption). All analyses performed in Python
+    (pandas, scipy, statsmodels).
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 02 STRATEGIES -->
+<section>
+  <div class="reveal">
+    <div class="section-number">02 / Acculturation strategies</div>
+    <h2 class="question">How do migrants navigate<br>cultural adaptation?</h2>
+    <p class="answer-text">
+      How do you navigate culture when you move to a new country? Berry identified four strategies. Blend in completely — that's <strong>Assimilation</strong>. Hold on to your roots and reject the new — <strong>Separation</strong>. Let go of both — <strong>Marginalization</strong>. Or do both at once, maintaining who you are while adopting what's useful — <strong>Integration</strong>.
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Acculturation strategies — mean score (0–5 scale)</div>
+    <div class="bar-group">
+      <div class="bar-row">
+        <span class="bar-label">Integration</span>
+        <div class="bar-track"><div class="bar-fill amber" data-pct="86"></div></div>
+        <span class="bar-val">4.30</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Assimilation</span>
+        <div class="bar-track"><div class="bar-fill dim" data-pct="44.8"></div></div>
+        <span class="bar-val">2.24</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Separation</span>
+        <div class="bar-track"><div class="bar-fill dim" data-pct="27"></div></div>
+        <span class="bar-val">1.35</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Marginalization</span>
+        <div class="bar-track"><div class="bar-fill dim" data-pct="10.2"></div></div>
+        <span class="bar-val">0.51</span>
+      </div>
+    </div>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1.5rem;">
+      Three out of four chose the same answer: both. Keep who you are, adopt what helps.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 03 ENGAGEMENT -->
+<section>
+  <div class="reveal">
+    <div class="section-number">03 / Work Engagement</div>
+    <h2 class="question">How engaged are they<br>with their work?</h2>
+    <p class="answer-text">
+      Work engagement measures how energized, dedicated, and absorbed people feel in their jobs. We used the UWES-9, a validated nine-item scale widely used in Latin America.
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Work Engagement dimensions — mean score (UWES-9, 0–6 scale)</div>
+    <div class="bar-group">
+      <div class="bar-row">
+        <span class="bar-label">Vigor</span>
+        <div class="bar-track"><div class="bar-fill teal" data-pct="70.5"></div></div>
+        <span class="bar-val" style="color:var(--teal)">4.23</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Dedication</span>
+        <div class="bar-track"><div class="bar-fill teal" data-pct="66.7"></div></div>
+        <span class="bar-val" style="color:var(--teal)">4.00</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Absorption</span>
+        <div class="bar-track"><div class="bar-fill teal" data-pct="54.7"></div></div>
+        <span class="bar-val" style="color:var(--teal)">3.28</span>
+      </div>
+      <div class="bar-row">
+        <span class="bar-label">Total</span>
+        <div class="bar-track"><div class="bar-fill amber" data-pct="64"></div></div>
+        <span class="bar-val">3.84</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      Venezuelan migrants in the sample scored moderate-to-high — <strong>3.84 out of 6</strong>. Energy and dedication were stronger than absorption, the deep flow state.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 04 CENTRAL FINDING -->
+<section>
+  <div class="reveal">
+    <div class="section-number">04 / The central finding</div>
+    <h2 class="question">Do acculturation strategies<br><em>predict</em> engagement?</h2>
+    <p class="answer-text">
+      Berry's model is clear: Integration is the gold standard. Keep your culture, adopt the new one. Best of both worlds — best outcomes.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      But empirical studies tell a different story. In Australia, in the UK — <strong>Assimilation</strong> predicted engagement better than Integration. Not theory. Data.
+    </p>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      We asked: does that hold in forced migration? In Latin America? We ran Pearson correlations for each strategy against engagement.
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Correlations: acculturation strategies × total work engagement</div>
+    <table class="corr-table">
+      <thead>
+        <tr>
+          <th>Strategy</th>
+          <th>Correlation (r)</th>
+          <th>p-value</th>
+          <th>Interpretation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Assimilation</td>
+          <td><span class="r-val r-pos">+0.177</span><span class="sig">*</span></td>
+          <td>.019</td>
+          <td style="font-size:0.82rem;color:var(--text-dim)">Small but significant</td>
+        </tr>
+        <tr>
+          <td>Integration</td>
+          <td><span class="r-val r-neu">+0.026</span></td>
+          <td><span class="ns">ns (.737)</span></td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">Practically zero</td>
+        </tr>
+        <tr>
+          <td>Separation</td>
+          <td><span class="r-val r-neu">−0.032</span></td>
+          <td><span class="ns">ns (.676)</span></td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">No effect</td>
+        </tr>
+        <tr>
+          <td>Marginalization</td>
+          <td><span class="r-val r-neu">+0.046</span></td>
+          <td><span class="ns">ns (.548)</span></td>
+          <td style="font-size:0.82rem;color:var(--text-muted)">No effect</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="finding reveal">
+    <p>Integration — the strategy 76% chose — has zero relationship with engagement. The only strategy that predicts it is Assimilation. Small effect, but real. Consistent with every prior study in labor migration.</p>
+    <div class="finding-note">Finding 01 · Pearson correlations, N = 176 · Consistent with Lu et al. (2011) and Turska &amp; Mochnacka (2016)</div>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      Assimilation matters — but barely (r = .17). Something else is doing heavier lifting. We kept looking.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 05 SECTOR -->
+<section>
+  <div class="reveal">
+    <div class="section-number">05 / The real predictor</div>
+    <h2 class="question">Does working in your field<br>make a difference?</h2>
+    <p class="answer-text">
+      One variable stood out from everything else.
+    </p>
+  </div>
+
+  <div class="compare-row reveal">
+    <div class="compare-card">
+      <div class="compare-big">3.41</div>
+      <div class="compare-sub">Mean engagement<br>among those who changed fields</div>
+      <div class="compare-tag">Different field · n = 96</div>
+    </div>
+    <div class="compare-card hi">
+      <div class="compare-big">4.34</div>
+      <div class="compare-sub">Mean engagement<br>among those who kept their field</div>
+      <div class="compare-tag">Same field · n = 80</div>
+    </div>
+  </div>
+
+  <div class="method-note reveal">
+    t(174) = 4.43, p &lt; .001. Effect size d ≈ 0.68 — moderate, by conventional standards.
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      The same group also reported less acculturation stress (M = 1.58 vs 1.99, p = .008). Maintaining professional continuity doesn't just protect engagement — it also reduces the friction of cultural adaptation.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 06 MODERATION -->
+<section>
+  <div class="reveal">
+    <div class="section-number">06 / Moderation analysis</div>
+    <h2 class="question">Does working in your field buffer<br>the impact of stress?</h2>
+    <p class="answer-text">
+      We knew field continuity predicted engagement. We knew stress reduced it. But did one change the other?
+    </p>
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text">
+      A moderation model tests exactly that: does the effect of stress on engagement <em>depend</em> on whether you kept your field? We built three nested models to find out.
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Nested model comparison — testing for moderation</div>
+    <table class="corr-table">
+      <thead>
+        <tr>
+          <th>Model</th>
+          <th>Predictors</th>
+          <th>R²</th>
+          <th>ΔR²</th>
+          <th>F change</th>
+          <th>p</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td style="font-size:0.82rem;color:var(--text-dim)">Stress only</td>
+          <td>.030</td>
+          <td style="color:var(--text-muted)">—</td>
+          <td style="color:var(--text-muted)">—</td>
+          <td>.022</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td style="font-size:0.82rem;color:var(--text-dim)">+ Same field</td>
+          <td>.116</td>
+          <td><span style="color:var(--teal)">.086</span></td>
+          <td>16.99</td>
+          <td><span style="color:var(--teal)">&lt; .001</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td style="font-size:0.82rem;color:var(--text-dim)">+ Stress × Field</td>
+          <td>.116</td>
+          <td><span style="color:var(--text-muted)">.000</span></td>
+          <td>0.047</td>
+          <td><span style="color:var(--text-muted)">.829</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1rem;">
+      Model 2 adds substantial explanatory power. Model 3 — which tests the moderation — adds nothing.
+    </p>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Acculturation stress vs. Work Engagement — by occupational group (hover for details)</div>
+    <canvas id="scatterCanvas" height="380"></canvas>
+    <div style="display:flex;gap:2rem;margin-top:1rem;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-dim)">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--amber);opacity:0.85"></div>
+        Same field as in Venezuela
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.8rem;color:var(--text-dim)">
+        <div style="width:10px;height:10px;border-radius:50%;background:var(--teal);opacity:0.65"></div>
+        Different field
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-wrap reveal">
+    <div class="chart-title">Multiple regression: predictors of work engagement (standardized betas)</div>
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-bottom:1.5rem;">
+      R² = .14 &nbsp;·&nbsp; R²<sub>adj</sub> = .09 &nbsp;·&nbsp; F(9, 166) = 3.01 &nbsp;·&nbsp; p = .002
+    </div>
+    <div id="regTable">
+      <div class="reg-row"><span class="reg-name">Assimilation</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.152"></div></div><span class="reg-p ns-p">p = .189</span></div>
+      <div class="reg-row"><span class="reg-name">Integration</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.013"></div></div><span class="reg-p ns-p">p = .909</span></div>
+      <div class="reg-row"><span class="reg-name">Separation</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.030"></div></div><span class="reg-p ns-p">p = .797</span></div>
+      <div class="reg-row"><span class="reg-name">Marginalization</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.048"></div></div><span class="reg-p ns-p">p = .661</span></div>
+      <div class="reg-row"><span class="reg-name">Acculturation stress</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill neg" data-b="0.168"></div></div><span class="reg-p ns-p">p = .135</span></div>
+      <div class="reg-row"><span class="reg-name hi">Same field ★</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos key" data-b="0.338"></div></div><span class="reg-p sig-p">p = .004 **</span></div>
+      <div class="reg-row"><span class="reg-name">Age</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.144"></div></div><span class="reg-p ns-p">p = .321</span></div>
+      <div class="reg-row"><span class="reg-name">Education level</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill neg" data-b="0.050"></div></div><span class="reg-p ns-p">p = .726</span></div>
+      <div class="reg-row"><span class="reg-name">Time of residence</span><div class="beta-track"><div class="beta-center"></div><div class="beta-fill pos" data-b="0.104"></div></div><span class="reg-p ns-p">p = .348</span></div>
+    </div>
+    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:1.5rem;">
+      ★ Original variable coded inversely (1 = same field, 2 = different field); beta sign reversed here for intuitive display. Positive bar = positive effect on engagement.
+    </p>
+  </div>
+
+  <div class="finding reveal">
+    <p>
+      The interaction didn't add anything. ΔR² = .000, p = .83. Stress hurts engagement regardless of whether you kept your field. Field continuity helps engagement regardless of how stressed you are. Two separate levers — not one controlling the other.
+    </p>
+    <div class="finding-note">Finding 02 · Moderation analysis, N = 176</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- 07 CONCLUSION -->
+<section>
+  <div class="reveal">
+    <div class="section-number">07 / Conclusion</div>
+    <h2 class="question">The story<br>the data tell</h2>
+    <p class="answer-text">
+      In forced migration, how you navigate culture matters less than whether you could stay yourself professionally.
+    </p>
+  </div>
+
+  <div class="insight-grid reveal">
+    <div class="insight-card amber">
+      <div class="insight-stat" style="font-size:1.5rem;line-height:1.2">Professional<br>identity</div>
+      <div class="insight-desc" style="margin-top:0.75rem">
+        Occupational continuity is the most robust predictor of engagement — more than
+        acculturation strategies, more than accumulated stress, more than time spent in the host country.
+      </div>
+    </div>
+    <div class="insight-card teal">
+      <div class="insight-stat" style="font-size:1.5rem;line-height:1.2">Two independent<br>pathways</div>
+      <div class="insight-desc" style="margin-top:0.75rem">
+        Occupational mismatch elevates stress <em>and</em> reduces engagement,
+        but through separate channels. Stress has its own direct effect (r = −.17),
+        not mediated by field continuity.
+      </div>
+    </div>
+    <div class="insight-card rose">
+      <div class="insight-stat" style="font-size:1.5rem;line-height:1.2">Berry<br>revisited</div>
+      <div class="insight-desc" style="margin-top:0.75rem">
+        Integration — preferred by 76% — does not predict higher engagement.
+        Marginalization — feared by theory — does not predict higher stress either.
+        Forced migration context substantially qualifies the classical acculturation model.
+      </div>
+    </div>
+  </div>
+
+  <div class="method-note reveal" style="margin-top:2rem">
+    <strong>Limitations:</strong> non-probabilistic sample (N = 176), cross-sectional design,
+    data collected 2017–2018. Results are exploratory and should be interpreted cautiously
+    before generalization. Future research should examine migration legal status and
+    occupational adjustment as potential moderators.
+  </div>
+
+  <div class="reveal">
+    <p class="answer-text" style="margin-top:2rem">
+      That's the finding. Not elegant theory — just what the data said.
+    </p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Gabriel Ortiz Francisco</div>
+    <div style="font-size:0.78rem;color:var(--text-muted);margin-top:0.5rem;">
+      Psychometrics · People Analytics · Organizational Psychology
+    </div>
+  </div>
+  <div class="footer-note">
+    This piece is an extended analysis of original data collected for a Master's thesis in
+    Organizational Psychology (Universidad de Belgrano, Argentina, 2021). The acculturation
+    strategies × engagement analysis and the moderation model are new and were not part of
+    the original thesis. Analysis in Python (pandas, scipy, statsmodels).<br><br>
+    <strong>Instruments:</strong>
+    Acculturation Stress Scale for Latin American Immigrants (Ruiz et al., 2011) — 24 items, 6 factors, α = .92;
+    Utrecht Work Engagement Scale–Short Version (UWES-9; Schaufeli, Bakker &amp; Salanova, 2006) — vigor (α = .82), dedication (α = .86), absorption (α = .80).
+    Psychometric properties of the UWES-9 validated in Latin American samples: Mexico (Hernández et al., 2016), Ecuador (Portalanza et al., 2017), Puerto Rico (Rodríguez et al., 2014).<br><br>
+    Lu et al. (2011) <em>Int. Journal of HRM</em>; Turska &amp; Mochnacka (2016) <em>Polish Psychological Bulletin</em>.
+  </div>
+</footer>
+
+<script>
+// ── SCROLL REVEAL ──
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('visible');
+    e.target.querySelectorAll('.bar-fill[data-pct], .c-fill[data-pct]').forEach(b => {
+      setTimeout(() => { b.style.width = b.dataset.pct + '%'; }, 120);
+    });
+    e.target.querySelectorAll('.beta-fill[data-b]').forEach(b => {
+      const pct = Math.min(parseFloat(b.dataset.b) / 0.4 * 44, 44);
+      setTimeout(() => { b.style.width = pct + '%'; }, 200);
+    });
+    observer.unobserve(e.target);
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ── SCATTER ──
+const DATA = [{"x":1.375,"y":3.667,"s":2},{"x":0.75,"y":5.444,"s":1},{"x":0.417,"y":5.333,"s":1},{"x":0.083,"y":4.778,"s":1},{"x":2.125,"y":3.222,"s":2},{"x":0.75,"y":5.222,"s":2},{"x":2.625,"y":3.111,"s":2},{"x":3.875,"y":5.667,"s":1},{"x":3.292,"y":4.778,"s":2},{"x":0.25,"y":4.667,"s":1},{"x":0.458,"y":4.333,"s":1},{"x":3.292,"y":2.444,"s":1},{"x":2.833,"y":4.889,"s":1},{"x":2.0,"y":5.889,"s":2},{"x":3.583,"y":2.444,"s":2},{"x":2.167,"y":0.0,"s":2},{"x":3.625,"y":5.111,"s":2},{"x":3.625,"y":5.111,"s":2},{"x":1.667,"y":5.111,"s":2},{"x":1.167,"y":2.0,"s":1},{"x":1.875,"y":6.0,"s":1},{"x":0.458,"y":3.222,"s":1},{"x":3.458,"y":0.222,"s":2},{"x":3.917,"y":3.444,"s":2},{"x":1.208,"y":5.111,"s":2},{"x":1.458,"y":3.667,"s":1},{"x":1.375,"y":5.333,"s":1},{"x":2.375,"y":4.222,"s":2},{"x":2.375,"y":4.222,"s":2},{"x":0.917,"y":5.222,"s":1},{"x":2.625,"y":2.444,"s":2},{"x":0.917,"y":4.0,"s":1},{"x":0.292,"y":5.333,"s":1},{"x":1.292,"y":4.333,"s":1},{"x":0.75,"y":4.0,"s":1},{"x":0.958,"y":3.444,"s":2},{"x":0.583,"y":5.0,"s":1},{"x":1.458,"y":2.778,"s":2},{"x":2.958,"y":5.111,"s":2},{"x":0.0,"y":6.0,"s":1},{"x":0.0,"y":0.444,"s":2},{"x":1.625,"y":5.0,"s":1},{"x":1.083,"y":4.222,"s":2},{"x":2.292,"y":0.667,"s":2},{"x":0.917,"y":5.0,"s":2},{"x":3.167,"y":5.0,"s":2},{"x":0.333,"y":4.333,"s":1},{"x":2.625,"y":5.222,"s":2},{"x":2.417,"y":2.889,"s":1},{"x":0.542,"y":2.778,"s":1},{"x":2.583,"y":5.111,"s":1},{"x":2.167,"y":2.333,"s":2},{"x":0.792,"y":4.889,"s":1},{"x":1.75,"y":2.333,"s":1},{"x":1.0,"y":5.0,"s":1},{"x":4.292,"y":2.556,"s":2},{"x":2.25,"y":2.778,"s":2},{"x":1.333,"y":4.0,"s":2},{"x":0.708,"y":4.667,"s":1},{"x":1.292,"y":4.778,"s":2},{"x":0.542,"y":5.444,"s":1},{"x":1.792,"y":3.556,"s":1},{"x":1.917,"y":4.778,"s":2},{"x":1.042,"y":2.778,"s":2},{"x":1.208,"y":3.889,"s":1},{"x":2.292,"y":6.0,"s":1},{"x":1.417,"y":5.556,"s":1},{"x":0.917,"y":5.333,"s":2},{"x":2.625,"y":4.222,"s":2},{"x":1.583,"y":5.889,"s":2},{"x":2.25,"y":4.667,"s":1},{"x":2.708,"y":4.889,"s":2},{"x":1.667,"y":3.222,"s":2},{"x":0.708,"y":4.778,"s":1},{"x":0.708,"y":2.444,"s":2},{"x":1.042,"y":4.667,"s":1},{"x":1.5,"y":3.333,"s":2},{"x":1.917,"y":3.222,"s":2},{"x":0.458,"y":2.444,"s":2},{"x":1.292,"y":3.889,"s":1},{"x":1.792,"y":4.889,"s":2},{"x":1.083,"y":2.222,"s":1},{"x":3.083,"y":3.0,"s":2},{"x":1.75,"y":1.333,"s":2},{"x":0.25,"y":5.889,"s":2},{"x":1.875,"y":5.111,"s":1},{"x":2.375,"y":5.0,"s":2},{"x":1.333,"y":4.444,"s":1},{"x":1.708,"y":3.333,"s":2},{"x":2.5,"y":4.444,"s":2},{"x":2.667,"y":5.111,"s":1},{"x":2.5,"y":3.111,"s":1},{"x":0.917,"y":4.111,"s":2},{"x":0.583,"y":5.778,"s":2},{"x":2.958,"y":2.889,"s":1},{"x":0.875,"y":4.0,"s":2},{"x":3.167,"y":4.889,"s":2},{"x":2.5,"y":1.889,"s":1},{"x":3.042,"y":3.111,"s":2},{"x":1.042,"y":2.556,"s":2},{"x":4.208,"y":4.889,"s":1},{"x":3.5,"y":0.667,"s":2},{"x":0.333,"y":1.889,"s":2},{"x":2.5,"y":2.667,"s":2},{"x":3.917,"y":2.444,"s":1},{"x":2.417,"y":3.444,"s":2},{"x":1.417,"y":1.778,"s":2},{"x":3.208,"y":4.889,"s":2},{"x":4.625,"y":3.0,"s":2},{"x":2.083,"y":1.778,"s":2},{"x":0.417,"y":6.0,"s":2},{"x":1.625,"y":4.111,"s":2},{"x":2.292,"y":4.444,"s":2},{"x":1.833,"y":4.667,"s":1},{"x":1.042,"y":2.556,"s":1},{"x":1.333,"y":5.0,"s":1},{"x":2.25,"y":4.667,"s":1},{"x":1.833,"y":5.556,"s":1},{"x":0.25,"y":4.333,"s":2},{"x":0.458,"y":4.667,"s":1},{"x":2.75,"y":0.778,"s":2},{"x":3.75,"y":5.889,"s":1},{"x":2.5,"y":1.333,"s":2},{"x":3.083,"y":5.0,"s":1},{"x":1.167,"y":1.778,"s":1},{"x":1.167,"y":4.111,"s":2},{"x":1.708,"y":1.889,"s":2},{"x":1.917,"y":0.889,"s":2},{"x":1.833,"y":5.111,"s":2},{"x":1.333,"y":4.667,"s":2},{"x":3.042,"y":2.333,"s":2},{"x":1.875,"y":4.0,"s":1},{"x":1.042,"y":3.111,"s":2},{"x":1.042,"y":3.333,"s":1},{"x":1.5,"y":4.222,"s":2},{"x":1.583,"y":4.444,"s":1},{"x":2.125,"y":1.556,"s":1},{"x":1.542,"y":5.0,"s":1},{"x":1.875,"y":2.556,"s":1},{"x":1.875,"y":4.889,"s":2},{"x":1.458,"y":3.0,"s":2},{"x":1.75,"y":0.667,"s":2},{"x":2.292,"y":4.222,"s":2},{"x":3.125,"y":4.111,"s":1},{"x":3.542,"y":3.889,"s":1},{"x":1.375,"y":5.667,"s":1},{"x":1.5,"y":5.0,"s":1},{"x":0.417,"y":5.556,"s":1},{"x":2.125,"y":6.0,"s":1},{"x":1.125,"y":0.778,"s":2},{"x":1.333,"y":4.333,"s":2},{"x":1.458,"y":4.222,"s":1},{"x":2.042,"y":4.667,"s":2},{"x":1.083,"y":4.333,"s":1},{"x":0.0,"y":4.222,"s":1},{"x":1.75,"y":4.667,"s":1},{"x":0.542,"y":4.111,"s":1},{"x":1.208,"y":6.0,"s":1},{"x":1.75,"y":3.111,"s":2},{"x":0.75,"y":5.778,"s":1},{"x":0.708,"y":3.0,"s":2},{"x":2.542,"y":0.556,"s":2},{"x":2.0,"y":1.889,"s":2},{"x":1.083,"y":3.889,"s":1},{"x":2.167,"y":1.111,"s":2},{"x":2.5,"y":4.111,"s":2},{"x":2.833,"y":5.0,"s":1},{"x":2.833,"y":3.778,"s":2},{"x":2.375,"y":2.889,"s":2},{"x":1.833,"y":2.889,"s":2},{"x":2.5,"y":3.667,"s":1},{"x":1.333,"y":2.889,"s":2},{"x":1.708,"y":3.667,"s":1},{"x":3.958,"y":2.0,"s":2},{"x":1.875,"y":3.444,"s":2},{"x":2.5,"y":3.444,"s":1}];
+
+const canvas = document.getElementById('scatterCanvas');
+const ctx = canvas.getContext('2d');
+const tip = document.getElementById('tooltip');
+
+function draw() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.parentElement.clientWidth - 64;
+  const H = 380;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
+
+  const p = { t:20, r:20, b:50, l:55 };
+  const pw = W - p.l - p.r, ph = H - p.t - p.b;
+  const tx = v => p.l + (v/5)*pw;
+  const ty = v => p.t + (1-v/6)*ph;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+  [1,2,3,4,5].forEach(v => { ctx.beginPath(); ctx.moveTo(tx(v),p.t); ctx.lineTo(tx(v),p.t+ph); ctx.stroke(); });
+  [1,2,3,4,5,6].forEach(v => { ctx.beginPath(); ctx.moveTo(p.l,ty(v)); ctx.lineTo(p.l+pw,ty(v)); ctx.stroke(); });
+
+  // Regression lines
+  function reg(pts) {
+    const n=pts.length, mx=pts.reduce((a,d)=>a+d.x,0)/n, my=pts.reduce((a,d)=>a+d.y,0)/n;
+    const b=pts.reduce((a,d)=>a+(d.x-mx)*(d.y-my),0)/pts.reduce((a,d)=>a+(d.x-mx)**2,0);
+    return { a: my-b*mx, b };
+  }
+
+  const g1 = DATA.filter(d=>d.s===1), g2 = DATA.filter(d=>d.s!==1);
+  [{g:g1,c:'rgba(232,160,32,0.45)'},{g:g2,c:'rgba(61,184,160,0.35)'}].forEach(({g,c})=>{
+    const {a,b} = reg(g);
+    ctx.beginPath(); ctx.strokeStyle=c; ctx.lineWidth=1.5; ctx.setLineDash([4,4]);
+    ctx.moveTo(tx(0),ty(a)); ctx.lineTo(tx(5),ty(a+b*5)); ctx.stroke(); ctx.setLineDash([]);
+  });
+
+  // Points
+  DATA.forEach(d => {
+    const same = d.s===1;
+    ctx.beginPath(); ctx.arc(tx(d.x),ty(d.y),5,0,Math.PI*2);
+    ctx.fillStyle = same ? 'rgba(232,160,32,0.78)' : 'rgba(61,184,160,0.58)';
+    ctx.fill();
+    ctx.strokeStyle = same ? 'rgba(232,160,32,0.25)' : 'rgba(61,184,160,0.2)';
+    ctx.lineWidth = 0.5; ctx.stroke();
+  });
+
+  // Axis labels
+  ctx.fillStyle='#5a5448'; ctx.font='11px DM Sans';
+  ctx.textAlign='center';
+  [0,1,2,3,4,5].forEach(v=>ctx.fillText(v,tx(v),p.t+ph+18));
+  ctx.textAlign='right';
+  [0,1,2,3,4,5,6].forEach(v=>ctx.fillText(v,p.l-8,ty(v)+4));
+  ctx.textAlign='center';
+  ctx.fillText('Acculturation stress',p.l+pw/2,H-8);
+  ctx.save(); ctx.translate(14,p.t+ph/2); ctx.rotate(-Math.PI/2);
+  ctx.fillText('Work Engagement',0,0); ctx.restore();
+}
+
+draw();
+
+canvas.addEventListener('mousemove', e => {
+  const r = canvas.getBoundingClientRect();
+  const mx = e.clientX-r.left, my = e.clientY-r.top;
+  const W = r.width, H = r.height;
+  const p={t:20,r:20,b:50,l:55};
+  const pw=W-p.l-p.r, ph=H-p.t-p.b;
+  const tx=v=>p.l+(v/5)*pw, ty=v=>p.t+(1-v/6)*ph;
+
+  let closest=null, minD=12;
+  DATA.forEach(d=>{
+    const dx=tx(d.x)-mx, dy=ty(d.y)-my;
+    const dist=Math.sqrt(dx*dx+dy*dy);
+    if(dist<minD){minD=dist;closest=d;}
+  });
+
+  if(closest){
+    tip.style.display='block';
+    tip.style.left=(e.clientX+14)+'px';
+    tip.style.top=(e.clientY-10)+'px';
+    const lbl = closest.s===1?'Same field':'Different field';
+    tip.innerHTML=`<strong>${lbl}</strong><br>Stress: ${closest.x.toFixed(2)} · Engagement: ${closest.y.toFixed(2)}`;
+  } else { tip.style.display='none'; }
+});
+canvas.addEventListener('mouseleave',()=>{ tip.style.display='none'; });
+window.addEventListener('resize', draw);
+</script>
+</body>
+</html>
